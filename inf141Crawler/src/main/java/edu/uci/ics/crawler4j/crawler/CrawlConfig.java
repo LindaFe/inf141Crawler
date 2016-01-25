@@ -68,7 +68,7 @@ public class CrawlConfig {
    * Politeness delay in milliseconds (delay between sending two requests to
    * the same host).
    */
-  private int politenessDelay = 200;
+  private int politenessDelay = 600;
 
   /**
    * Should we also crawl https pages?
