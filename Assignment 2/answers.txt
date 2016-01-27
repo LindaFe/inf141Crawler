@@ -1,5 +1,6 @@
 1. How much time did it take to crawl the entire domain?
-(set timer)
+- With depth set to 6: 2016-01-27T00:34:11.793 2016-01-27T04:06:26.384
+- About 3 hours 32 minutes, and 15 seconds
 
 2. How many unique pages did you find in the entire domain? 
 (Uniqueness is established by the URL, not the page's content.)
