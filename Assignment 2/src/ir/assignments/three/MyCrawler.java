@@ -3,9 +3,21 @@ package src.ir.assignments.three;
 import java.util.Collection;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class MyCrawler extends WebCrawler {
 
+	private static HashMap<String, Set<String>> allPages = new HashMap<String, Set<String>>();
+	
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
                                                            + "|png|mp3|mp3|zip|gz))$");
 
@@ -23,7 +35,8 @@ public class MyCrawler extends WebCrawler {
      public boolean shouldVisit(Page referringPage, WebURL url) {
          String href = url.getURL().toLowerCase();
          return !FILTERS.matcher(href).matches()
-                && href.startsWith("http://www.ics.uci.edu/");
+                && href.contains(".ics.uci.edu");
+                //og startsWith("http://www.ics.uci.edu/");			// that contains instead of starts with
      }
 
      /**
@@ -46,4 +59,29 @@ public class MyCrawler extends WebCrawler {
              System.out.println("Number of outgoing links: " + links.size());
          }
     }
-}
+     public static void getSubdomains(String url) {
+         String s = url;
+         int i = s.indexOf("www.")+4;
+         int j = s.indexOf(".ics.uci.edu");
+         s = s.substring(i, j);
+
+         if (allPages.containsKey(s)) {
+             ((Set<String>) allPages.get(s)).add(url);
+         }
+         else {
+             allPages.put(s, new HashSet<String>());
+             ((Set<String>) allPages.get(s)).add(url);
+         }
+     }
+
+     public static sortAndSave() {
+         Map<String, Set<String>> sortedMap = new TreeMap<String, Set<String>>(allPages);
+         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                   new FileOutputStream("Subdomains.txt"), "utf-8"))) {
+             for (String s : sortedMap.keySet()) {
+                 writer.write(s + " " + sortedMap.get(s).size() + ", ");
+             }
+         }
+     }
+
+ }
