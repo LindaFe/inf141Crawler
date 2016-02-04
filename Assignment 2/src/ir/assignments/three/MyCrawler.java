@@ -4,9 +4,11 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +18,6 @@ import java.util.TreeMap;
 
 public class MyCrawler extends WebCrawler {
 
-	private static HashMap<String, Set<String>> allPages = new HashMap<String, Set<String>>();
 	
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
                                                            + "|png|mp3|mp3|zip|gz))$");
@@ -35,7 +36,11 @@ public class MyCrawler extends WebCrawler {
      public boolean shouldVisit(Page referringPage, WebURL url) {
          String href = url.getURL().toLowerCase();
          return !FILTERS.matcher(href).matches()
-                && href.contains(".ics.uci.edu");
+                && href.contains(".ics.uci.edu") 
+                && !href.contains("duttgroup.ics.uci.edu") 			// telling it not to go here
+                && !href.contains("calendar")
+         		&& !href.contains("cradl.ics")
+         		&& !href.contains("archive.ics");
                 //og startsWith("http://www.ics.uci.edu/");			// that contains instead of starts with
      }
 
@@ -47,7 +52,15 @@ public class MyCrawler extends WebCrawler {
      public void visit(Page page) {
          String url = page.getWebURL().getURL();
          System.out.println("URL: " + url);
-
+         
+         AtariController.countEss ++;
+        
+         String theSub = page.getWebURL().getSubDomain();
+         theSub = theSub.replace(".ics", "");
+         if (!theSub.equals("www") ){
+        	 getSubdomains(url,theSub);
+         }
+         
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
              String text = htmlParseData.getText();
@@ -59,29 +72,12 @@ public class MyCrawler extends WebCrawler {
              System.out.println("Number of outgoing links: " + links.size());
          }
     }
-     public static void getSubdomains(String url) {
-         String s = url;
-         int i = s.indexOf("www.")+4;
-         int j = s.indexOf(".ics.uci.edu");
-         s = s.substring(i, j);
+     public static void getSubdomains(String url, String s) {
 
-         if (allPages.containsKey(s)) {
-             ((Set<String>) allPages.get(s)).add(url);
-         }
-         else {
-             allPages.put(s, new HashSet<String>());
-             ((Set<String>) allPages.get(s)).add(url);
-         }
-     }
-
-     public static sortAndSave() {
-         Map<String, Set<String>> sortedMap = new TreeMap<String, Set<String>>(allPages);
-         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                   new FileOutputStream("Subdomains.txt"), "utf-8"))) {
-             for (String s : sortedMap.keySet()) {
-                 writer.write(s + " " + sortedMap.get(s).size() + ", ");
-             }
-         }
+    	 int count = AtariController.allPages.containsKey(s) ? AtariController.allPages.get(s): 0;		// ? is like an if statement and then what happens after that do what follows after it
+         AtariController.allPages.put(s, count + 1);
+    	 
+         System.out.println("Subdomain: " + s);
      }
 
  }
