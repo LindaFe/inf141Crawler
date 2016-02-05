@@ -2,20 +2,24 @@
 - With depth set to 6: 2016-01-27T00:34:11.793 2016-01-27T04:06:26.384
 - About 3 hours 32 minutes, and 15 seconds
 
+-With depth set to 6 and three crawlers: 2016-02-04T00:15:28.968 2016-02-04T16:50:54.719
+- About 16 hours, 35 minutes and 26 seconds
+
 2. How many unique pages did you find in the entire domain? 
 (Uniqueness is established by the URL, not the page's content.)
-hashmap of subdomains
+- Number of unique pages crawled: 22,592
 
 3. How many subdomains did you find? Submit the list of subdomains ordered alphabetically 
 and the number of unique pages detected in each subdomain. 
 The file should be called Subdomains.txt, and its content should be lines containing 
 the URL, a comma, a space, and the number.
-how many keys do I have in the hashmap set in #2
+- 73 Unique Subdomains
 
 4. What is the longest page in terms of number of words? 
 (Don't count HTML markup as words.)
 .getPlainText -> returns a string = longestpage get len(longestpage) 
 (hold current yield of longestpage)
+- The longest page: http://sli.ics.uci.edu/Classes/2013S-77B?action=download&upname=jester-test.csv
 
 5. What are the 500 most common words in this domain? 
 (Ignore English stop words, which can be found, for example, at http://www.ranks.nl/stopwords.) Submit the list of common words ordered by frequency (and alphabetically for words with the same frequency) in a file called CommonWords.txt.
