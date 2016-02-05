@@ -43,13 +43,13 @@ public class CrawlConfig {
    * Maximum depth of crawling For unlimited depth this parameter should be
    * set to -1
    */
-  private int maxDepthOfCrawling = 1; // -1 goes up to infinity, safe number is 5 to 7
+  private int maxDepthOfCrawling = -1; // -1 goes up to infinity
 
   /**
    * Maximum number of pages to fetch For unlimited number of pages, this
    * parameter should be set to -1
    */
-  private int maxPagesToFetch = -1;
+  private int maxPagesToFetch = 30000;  // set limiter since we only need to get about 30,000 pages
 
   /**
    * user-agent string that is used for representing your crawler to web
@@ -66,7 +66,7 @@ public class CrawlConfig {
    * Politeness delay in milliseconds (delay between sending two requests to
    * the same host).
    */
-  private int politenessDelay = 600;
+  private int politenessDelay = 1200;
 
   /**
    * Should we also crawl https pages?
